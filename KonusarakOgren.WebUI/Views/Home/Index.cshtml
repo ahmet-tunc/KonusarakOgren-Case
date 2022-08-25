@@ -1,0 +1,63 @@
+﻿@model KonusarakOgren.WebUI.Models.HomePageViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Anasayfa</h1>
+<h6 style="color:red">Kullanıcı Rolleri = @(Model.Roles)</h6>
+<div class="row">
+    <div class="col-md-3">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Marka Adı</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    <tr>
+                        <td class="@(Model.CurrentBrandId == 0 ? "bg-primary":"")" onclick="document.getElementById('brand-item-0').click()">
+                            <a id="brand-item-0" class="text-decoration-none full-width @(Model.CurrentBrandId == 0 ? "text-white":"")" asp-controller="Home" asp-action="Index" asp-route-brandId="0">Hepsi</a>
+                        </td>
+                    </tr>
+                    foreach (var brand in Model.Brands)
+                    {
+                        <tr>
+                            <td class="@(Model.CurrentBrandId == brand.Id ? "bg-primary":"")" onclick="document.getElementById('brand-item-@(brand.Id)').click()">
+                                <a id="brand-item-@(brand.Id)" class="text-decoration-none full-width @(Model.CurrentBrandId == brand.Id ? "text-white":"")" asp-controller="Home" asp-action="Index" asp-route-brandId="@(brand.Id)">@(brand.Name)</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-9">
+        <div class="row">
+            @if (Model != null)
+            {
+                foreach (var product in Model.Products)
+                {
+                    <div class="card m-2" style="width:18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">@(product.Name)</h5>
+                            <p class="card-text">@(product.Description)</p>
+                            <a href="#" class="btn btn-primary full-width">Satın Al</a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        
+    </div>
+</div>
+
+@section Styles{
+    <style>
+        .full-width {
+            width: 100%
+        }
+    </style>
+}
